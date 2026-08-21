@@ -316,5 +316,5 @@ O sistema foi preparado para trabalhar com grandes quantidades de disciplinas at
 
 # Autor
 
-Leonardo Matsubara
+🥷 Leonardo Matsubara | 
 Analista de Tecnologia Educacional Sênior
