@@ -14,16 +14,6 @@ Importação automatizada de:
 - Arquivos (Attachments)
 - Bancos de Questões
 
-### Bancos de Questões Suportados
-
-- Atv. Dissertativa
-- Atv. Objetiva
-- Atv. Objetiva 2
-- Atv. Objetiva 3
-- Atv. Objetiva 4
-- Prova AO2
-- Prova Substitutiva
-
 ### Organização Automática dos Módulos
 
 Após a conclusão da migração o sistema:
@@ -31,9 +21,8 @@ Após a conclusão da migração o sistema:
 - Reposiciona itens dentro dos módulos
 - Publica conteúdos obrigatórios
 - Despublica atividades configuradas
-- Posiciona E-books, Materiais Adicionais, Podcasts e Vídeos
-- Insere páginas de Tópicos nos módulos correspondentes
-- Garante a presença das páginas "Aulas Gravadas" no módulo "Aulas"
+- Posiciona materiais adicionais
+- Insere páginas nos módulos correspondentes
 
 ### Recursos Operacionais
 
@@ -61,7 +50,7 @@ canvas_migrator/
 ├── logger.py
 │
 ├── inputs/
-│   └── oferta_disciplinas.xlsx
+│   └── input.xlsx
 │
 ├── outputs/
 │   ├── checkpoint.csv
@@ -81,7 +70,7 @@ canvas_migrator/
 
 # Requisitos
 
-- Python 3.12 ou superior
+- Python 3.13 ou superior
 - Token de acesso à API do Canvas
 - Permissão para executar Content Migrations
 
@@ -118,7 +107,7 @@ pip install -r requirements.txt
 Crie um arquivo `.env` na raiz do projeto:
 
 ```env
-CANVAS_TOKEN=Bearer SEU_TOKEN_AQUI
+TOKEN=Bearer ....
 ```
 
 ---
@@ -128,13 +117,10 @@ CANVAS_TOKEN=Bearer SEU_TOKEN_AQUI
 Configure os parâmetros principais:
 
 ```python
-MIGRATION_LIST = "inputs/oferta_disciplinas.xlsx"
-
-SHEET_NAME = "Geral"
-
-SKIP_ROWS = 0
-
-LIMIT = 0
+MIGRATION_LIST = "inputs/input.xlsx"
+SHEET_NAME = "Geral
+SKIP_ROWS = 0 #Set um valor para fins de testes iniciais
+LIMIT = 0 #Set um valor para fins de testes iniciais
 ```
 
 ### Descrição
@@ -163,7 +149,7 @@ A planilha deve conter as seguintes colunas:
 
 | DISCIPLINA | IDENTIFICADOR | LINK | BDQ |
 |------------|------------|------------|------------|
-| Matemática | DPEAD20262.001 | ORIGEM001 | ORIGEM001 |
+| Matemática | ExemploDisc.001 | ORIGEM001 | ORIGEM001 |
 
 ---
 
@@ -196,7 +182,7 @@ Organizar módulos
         ↓
 Inserir páginas de tópicos
         ↓
-Inserir páginas de Aulas Gravadas
+Inserir páginas de Aulas
         ↓
 Salvar checkpoint
         ↓
@@ -219,9 +205,9 @@ Exemplo:
 
 ```csv
 identifier,status
-DPEAD20262.001,SUCCESS
-DPEAD20262.002,SUCCESS
-DPEAD20262.003,FAILED
+EXEMPLO.001,SUCCESS
+EXEMPLO.002,SUCCESS
+EXEMPLO.003,FAILED
 ```
 
 Caso a execução seja interrompida, basta executar novamente:
@@ -247,8 +233,8 @@ logs/2026-08-21_11-42-13.log
 Trecho de exemplo:
 
 ```text
-2026-08-21 11:42:13 | INFO | Iniciando disciplina DPEAD20262.001
-2026-08-21 11:43:06 | INFO | DPEAD20262.001 processada com sucesso
+2026-08-21 11:42:13 | INFO | Iniciando disciplina EXEMPLO.001
+2026-08-21 11:43:06 | INFO | EXEMPLO.001 processada com sucesso
 2026-08-21 11:43:06 | INFO | Progresso 1/1000 | ETA 08h 17m
 ```
 
@@ -293,16 +279,6 @@ Permite identificar disciplinas que não receberam bancos de questões.
 # Segurança
 
 O projeto utiliza exclusivamente a API REST do Canvas.
-
-Não utiliza:
-
-- Selenium
-- BeautifulSoup
-- Scraping HTML
-- Cookies de navegador
-- Tokens CSRF
-- Automação de interface
-
 Toda a comunicação ocorre através de endpoints oficiais da API.
 
 ---
@@ -338,16 +314,7 @@ O sistema foi preparado para trabalhar com grandes quantidades de disciplinas at
 
 ---
 
-# Histórico do Projeto
-
-O projeto nasceu a partir de um notebook Jupyter utilizado para migração manual de disciplinas e foi completamente reestruturado para uma arquitetura baseada em serviços Python.
-
-Durante a refatoração foram eliminadas todas as dependências de scraping e automação de interface, tornando a solução mais estável, rastreável e adequada para execuções em larga escala.
-
----
-
 # Autor
 
 Leonardo Matsubara
-
 Analista de Tecnologia Educacional Sênior
