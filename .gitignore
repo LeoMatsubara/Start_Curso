@@ -1,5 +1,5 @@
 .env
-.csv
+*.csv
 logs/
 venv/
-.xlsx
+*.xlsx
